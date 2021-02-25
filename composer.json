@@ -1,5 +1,5 @@
 {
-    "name": "koerel/pdfunite",
+    "name": "ekkode/pdfunite",
     "description": "A php wrapper for pdfunite",
     "type": "library",
     "authors": [
