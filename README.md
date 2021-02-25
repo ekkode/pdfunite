@@ -10,7 +10,7 @@ This library provides a PHP wrapper around pdfunite.
 
 ## Installation
 
-run `composer require koerel/pdfunite`
+run `composer require ekkode/pdfunite`
 
 ## Usage
 
