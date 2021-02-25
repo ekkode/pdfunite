@@ -22,6 +22,39 @@ class PdfUnite
     {
         $this->binary = $binary ?: 'pdfunite';
     }
+    
+    /**
+     * Accepts an array of input files, last parameter is the output file
+     * @param array $files
+     * @return $this
+     * @throws \Exception
+     */
+    public function joinArray($files, $output)
+    {
+        if (count($files) < 2) {
+            throw new \Exception("pdfunite requires at least 2 arguments");
+        }
+        $input = implode(' ', $files);
+        $this->output = $output;
+        $command = "{$this->binary} {$input} {$output}";
+        $descriptors = [
+            1 => ['pipe', 'w'],
+            2 => ['pipe', 'w'],
+        ];
+        $process = proc_open($command, $descriptors, $pipes);
+        if (!is_resource($process)) {
+            throw new \Exception("Could not run pdfunite");
+        }
+        $error = stream_get_contents($pipes[2]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        $exitCode = proc_close($process);
+        if ($exitCode !== 0) {
+            throw new \Exception($error);
+        }
+
+        return $this;
+    }
 
     /**
      * Accepts any number of input files, last parameter is the output file
